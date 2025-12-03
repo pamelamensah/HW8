@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   PAMELA MENSAH / 002
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -81,9 +81,39 @@ class ProblemSolutions {
         ArrayList<Integer>[] adj = getAdjList(numExams, 
                                         prerequisites); 
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        boolean[] visited = new boolean[numNodes];
+        boolean[] stack = new boolean[numNodes];
 
+        for (int i = 0; i < numNodes; i++) {
+            if (dfsCheck(i, adj, visited, stack)) {
+                return false; 
+            }
+        }
+
+        return true;
+    }
+
+    private boolean dfsCheck(int node, ArrayList<Integer>[] adj, boolean[] visited, boolean[] stack) {
+
+        if (stack[node]) {
+            return true; 
+        }
+
+        if (visited[node]) {
+            return false;
+        }
+
+        visited[node] = true;
+        stack[node] = true;
+
+        for (int next : adj[node]) {
+            if (dfsCheck(next, adj, visited, stack)) {
+                return true;
+            }
+        }
+
+        stack[node] = false;
+        return false;
     }
 
 
@@ -189,10 +219,31 @@ class ProblemSolutions {
                 }
             }
         }
+        boolean[] visited = new boolean[numNodes];
+        int groups = 0;
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
+        for (int node = 0; node < numNodes; node++) {
+            if (!visited[node]) {
+                groups = groups + 1;
+                dfsGroup(node, graph, visited);
+            }
+        }
+
+        return groups;
+    }
+
+    private void dfsGroup(int node, Map<Integer,List<Integer>> graph, boolean[] visited) {
+        visited[node] = true;
+
+        if (!graph.containsKey(node)) {
+            return;  
+        }
+
+        for (int next : graph.get(node)) {
+            if (!visited[next]) {
+                dfsGroup(next, graph, visited);
+            }
+        }
     }
 
 }

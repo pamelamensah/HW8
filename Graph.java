@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   PAMELA MENSAH / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -103,8 +103,29 @@ public class Graph {
    */
   
   public int findRoot() {
+    int[] incoming = new int[numVertices];
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
+    for (int i = 0; i < numVertices; i++) {
+        for (int dest : adjListArr[i]) {
+            incoming[dest] = incoming[dest] + 1;
+        }
+    }
+
+    int rootIndex = -1;
+    int count = 0;
+
+    for (int i = 0; i < numVertices; i++) {
+        if (incoming[i] == 0) {
+            count = count + 1;
+            rootIndex = i;
+        }
+    }
+
+    if (count == 1) {
+        return vertexValues.get(rootIndex);
+    }
+
     return -1;
-  } 
+  }
+
 }
